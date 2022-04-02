@@ -32,7 +32,7 @@ func attack():
 	timer.start(attack_duration)
 	yield(timer, "timeout")
 	
-	$Sword.monitorable = false
+	$Sword.monitoring = false
 	$Sword.visible = false
 	timer.start(attack_delay)
 	yield(timer, "timeout")
