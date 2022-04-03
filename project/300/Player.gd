@@ -9,9 +9,14 @@ onready var timer = $Timer
 export(float) var max_stamina = 100
 var stamina = max_stamina
 var exhausted = false
-export(float) var attack_duration = 0.4
+export(float) var attack_windup = 0.15
+export(float) var attack_duration = 0.35 # total including windup
 export(float) var stamina_regen = 30  # Per second
-export(float) var attack_cost = 10
+export(float) var attack_cost = 35
+
+export(float) var stamina_scale_max = 0.3 # max scale of stamina indicator texture
+export(float) var stamina_alpha_max = 0.1
+
 var attack_lock = Mutex.new()
 
 export(float) var special_cost = 100
@@ -50,17 +55,20 @@ func attack():
 		return
 	
 	#Player the sword anim and start a timer
-	$Sword.monitoring = true
-	# $Sword.visible = true
 	$Sword/SwordSprite.play("slice")
 	$Sword/SwordAudio.play()
 	
-	timer.start(attack_duration)
+	# don't activate the sword hitbox until after the wind up
+	timer.start(attack_windup)
 	yield(timer, "timeout")
+	$Sword.monitoring = true
+	timer.start(attack_duration - attack_windup)
+	yield(timer, "timeout")
+
+	
 	
 	# Attack is done
 	$Sword.monitoring = false
-	# $Sword.visible = false
 	$Sword/SwordSprite.play("static_back")
 	$PlayerSprite.play("idle")
 	attack_lock.unlock()
@@ -90,6 +98,15 @@ func _process(delta):
 		stamina = min(stamina + stamina_regen*delta, max_stamina)
 		if exhausted and stamina == max_stamina:
 			exhausted = false
+		
+		# for stamina indicator appearance
+		var stamina_scale = stamina_scale_max * stamina/max_stamina
+		var stamina_alpha = stamina_alpha_max * stamina/max_stamina
+		$StaminaIndicator.scale = Vector2(stamina_scale,stamina_scale)
+		if exhausted:
+			$StaminaIndicator.modulate = Color(0.922, 0.152, 0.246,0.2)
+		else:
+			$StaminaIndicator.modulate = Color(1.0,1.0,1.0,stamina_alpha)
 		
 		offset += speed * delta
 		if unit_offset >= 1 || unit_offset <= 0:
