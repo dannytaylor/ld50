@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://300/EnemySpawner.gd" type="Script" id=1]
 [ext_resource path="res://300/idea.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://300/player.png" type="Texture" id=7]
 [ext_resource path="res://300/sword.png" type="Texture" id=8]
 [ext_resource path="res://300/Game.gd" type="Script" id=9]
+[ext_resource path="res://300/special.png" type="Texture" id=10]
 
 [sub_resource type="Curve2D" id=2]
 _data = {
@@ -24,6 +25,8 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 50, 10 )
+
+[sub_resource type="CircleShape2D" id=5]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 9 )
@@ -87,5 +90,20 @@ texture = ExtResource( 8 )
 position = Vector2( -56, 16 )
 shape = SubResource( 4 )
 
+[node name="Special" type="Area2D" parent="PlayerPath/Player"]
+collision_layer = 8
+collision_mask = 2
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerPath/Player/Special"]
+shape = SubResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="PlayerPath/Player/Special"]
+texture = ExtResource( 10 )
+
+[node name="Tween" type="Tween" parent="PlayerPath/Player/Special"]
+
 [connection signal="area_entered" from="PlayerPath/Player/Hurtbox" to="PlayerPath/Player" method="_on_Hurtbox_area_entered"]
 [connection signal="area_entered" from="PlayerPath/Player/Sword" to="PlayerPath/Player" method="_on_Sword_area_entered"]
+[connection signal="area_entered" from="PlayerPath/Player/Special" to="PlayerPath/Player" method="_on_Special_area_entered"]

@@ -5,9 +5,18 @@ export(Vector2) var movespeed = Vector2(8, 16)
 var speed = -1
 var direction = -1
 onready var timer = $Timer
-export(float) var attack_delay = 1
-export(float) var attack_duration = 0.25
-var cant_attack = false
+
+export(float) var max_stamina = 100
+var stamina = max_stamina
+var exhausted = false
+export(float) var attack_duration = 0.2
+export(float) var stamina_regen = 30  # Per second
+export(float) var attack_cost = 10
+var attack_lock = Mutex.new()
+
+export(float) var special_cost = 100
+export(Vector2) var special_size = Vector2(1, 3)
+export(float) var special_duration = 1
 
 onready var game = $"../../"
 
@@ -20,11 +29,23 @@ func reset_speed():
 	direction *= -1
 	speed = direction * ((randf() * (movespeed.y - movespeed.x)) + movespeed.x)
 
+func spend_stamina(amount):
+	stamina = max(0, stamina-amount)
+	if stamina == 0:
+		exhausted = true
+
 func attack():
 	
-	if cant_attack:
+	# Eat some stamina
+	if exhausted:
 		return
-	cant_attack = true
+	
+	spend_stamina(attack_cost)
+	
+	# Only let one thread handle the attack, but we can exteend it!
+	if attack_lock.try_lock() == ERR_BUSY:
+		timer.time_left = attack_duration
+		return
 	
 	#Spawn the sword and start a timer
 	$Sword.monitoring = true
@@ -32,23 +53,46 @@ func attack():
 	timer.start(attack_duration)
 	yield(timer, "timeout")
 	
+	# Attack is done
 	$Sword.monitoring = false
 	$Sword.visible = false
-	timer.start(attack_delay)
-	yield(timer, "timeout")
+	attack_lock.unlock()
+
+func special():
 	
-	cant_attack = false
+	if exhausted:
+		return
+	
+	spend_stamina(special_cost)
+	
+	$Special.monitoring = true
+	$Special.visible = true
+	$Special/Tween.interpolate_property($Special, "scale", Vector2(special_size.x, special_size.x), Vector2(special_size.y, special_size.y), special_duration, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	$Special/Tween.start()
+	yield($Special/Tween, "tween_all_completed")
+	
+	$Special.monitoring = false
+	$Special.visible = false
+	
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 		
+		# Recover stamina
+		stamina = min(stamina + stamina_regen*delta, max_stamina)
+		if exhausted and stamina == max_stamina:
+			exhausted = false
+		
 		offset += speed * delta
 		if unit_offset >= 1 || unit_offset <= 0:
 			reset_speed()
-		
-func _unhandled_key_input(event):
+
+func _unhandled_input(event):
 	if event.is_action_pressed("player_attack"):
 		attack()
+	elif event.is_action_pressed("player_special"):
+		special()
 
 
 func _on_Sword_area_entered(area):
@@ -59,3 +103,9 @@ func _on_Sword_area_entered(area):
 func _on_Hurtbox_area_entered(area):
 	print("You died")
 	game.playing = false
+
+
+func _on_Special_area_entered(area):
+	print("Nice special")
+	game.score += 1
+	area.get_parent().queue_free()
