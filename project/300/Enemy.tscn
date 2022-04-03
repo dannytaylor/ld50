@@ -1,5 +1,6 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
+[ext_resource path="res://audio/enemy_death.ogg" type="AudioStream" id=1]
 [ext_resource path="res://300/Enemy.gd" type="Script" id=2]
 [ext_resource path="res://sprites/enemy_death.png" type="Texture" id=3]
 [ext_resource path="res://sprites/enemy_swipe.png" type="Texture" id=4]
@@ -105,19 +106,19 @@ animations = [ {
 "speed": 8.0
 }, {
 "frames": [ SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ) ],
-"loop": false,
+"loop": true,
 "name": "swipe",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [ SubResource( 32 ) ],
 "loop": true,
 "name": "static",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 50 ), SubResource( 50 ), SubResource( 51 ) ],
+"frames": [ SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ) ],
 "loop": false,
 "name": "death",
-"speed": 4.0
+"speed": 8.0
 } ]
 
 [node name="Enemy" type="PathFollow2D" groups=["enemy"]]
@@ -137,8 +138,14 @@ position = Vector2( 0.00439453, -6.24988 )
 scale = Vector2( 0.15, 0.15 )
 frames = SubResource( 52 )
 animation = "walk"
-frame = 4
+frame = 7
 playing = true
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="DeathTimer" type="Timer" parent="."]
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = 18.0

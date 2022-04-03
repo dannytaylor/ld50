@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=73 format=2]
 
 [ext_resource path="res://300/EnemySpawner.gd" type="Script" id=1]
 [ext_resource path="res://sprites/Vegur-Bold.otf" type="DynamicFontData" id=2]
@@ -35,19 +35,27 @@ shader_param/background_col = Color( 1, 0, 1, 0 )
 shader_param/blob_col = Color( 1, 1, 1, 1 )
 shader_param/mask_texture = ExtResource( 7 )
 
-[sub_resource type="ParticlesMaterial" id=8]
-emission_shape = 1
-emission_sphere_radius = 0.01
+[sub_resource type="Gradient" id=51]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.496569 )
+
+[sub_resource type="GradientTexture" id=52]
+gradient = SubResource( 51 )
+
+[sub_resource type="ParticlesMaterial" id=50]
 flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
 spread = 180.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 29.41
+gravity = Vector3( 0, 0.2, 0 )
+initial_velocity = 10.0
+initial_velocity_random = 1.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
+scale = 2.0
+color_ramp = SubResource( 52 )
 
 [sub_resource type="Curve2D" id=2]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 304, 345, 0, 0, 0, 0, 349, 316, 0, 0, 0, 0, 521, 303, 0, 0, 0, 0, 641, 309, 0, 0, 0, 0, 908, 312, 0, 0, 0, 0, 974, 351, 0, 0, 0, 0, 991, 370 )
+"points": PoolVector2Array( 0, 0, 0, 0, 389, 310, 0, 0, 0, 0, 641, 309, 0, 0, 0, 0, 908, 312, 0, 0, 0, 0, 974, 351, 0, 0, 0, 0, 991, 370 )
 }
 
 [sub_resource type="Curve2D" id=6]
@@ -57,7 +65,7 @@ _data = {
 
 [sub_resource type="Curve2D" id=3]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 698, 279, 0, 0, 0, 0, 715, 278, 0, 0, 0, 0, 751, 281, 0, 0, 0, 0, 772, 279, 0, 0, 0, 0, 811, 280 )
+"points": PoolVector2Array( 0, 0, 0, 0, 671, 280, 0, 0, 0, 0, 791, 281 )
 }
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -298,10 +306,21 @@ __meta__ = {
 
 [node name="EnemyBlob" type="Sprite" parent="Background"]
 material = SubResource( 36 )
-position = Vector2( 132, 242 )
+position = Vector2( 253, 250 )
 scale = Vector2( 8.59375, 3.78125 )
 z_index = 1
 texture = ExtResource( 10 )
+offset = Vector2( -14.08, -2.1157 )
+
+[node name="EnemyBlob2" type="Sprite" parent="Background"]
+material = SubResource( 36 )
+position = Vector2( 343, 286 )
+rotation = 0.223761
+scale = Vector2( 4.96, 2.6546 )
+z_index = 1
+texture = ExtResource( 10 )
+offset = Vector2( -14.08, -2.1157 )
+flip_h = true
 
 [node name="Bg" type="Sprite" parent="Background"]
 position = Vector2( 485.5, 239.75 )
@@ -317,10 +336,14 @@ rotation = -0.000186145
 scale = Vector2( 0.4, 0.4 )
 texture = ExtResource( 14 )
 
-[node name="MoonSparkle" type="Particles2D" parent="Background/Moon"]
-position = Vector2( -6.10352e-05, -5.79346 )
-speed_scale = 0.0
-process_material = SubResource( 8 )
+[node name="Particles2D" type="Particles2D" parent="Background/Moon"]
+position = Vector2( 7.50046, -2.49861 )
+scale = Vector2( 1.5, 1.5 )
+amount = 128
+lifetime = 10.0
+preprocess = 15.0
+randomness = 1.0
+process_material = SubResource( 50 )
 
 [node name="Tween" type="Tween" parent="Background"]
 
@@ -331,12 +354,9 @@ __meta__ = {
 }
 
 [node name="Cliff" type="Sprite" parent="Foreground"]
-position = Vector2( 362, 243 )
+position = Vector2( 387, 242 )
 scale = Vector2( 0.397756, 0.397756 )
 texture = ExtResource( 13 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="ArmyBack" type="Sprite" parent="."]
 visible = false
@@ -423,10 +443,11 @@ scale = Vector2( 0.15, 0.15 )
 z_index = -1
 frames = SubResource( 31 )
 animation = "idle"
-frame = 9
+frame = 3
 playing = true
 
 [node name="PlayerAreaIndicator" type="Sprite" parent="PlayerPath/Player"]
+visible = false
 modulate = Color( 1, 1, 1, 0.12549 )
 position = Vector2( 2, 17 )
 scale = Vector2( 0.289307, 0.289307 )

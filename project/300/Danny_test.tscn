@@ -301,9 +301,9 @@ animations = [ {
 "speed": 8.0
 }, {
 "frames": [ SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ) ],
-"loop": false,
+"loop": true,
 "name": "swipe",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [ SubResource( 32 ) ],
 "loop": true,
@@ -414,7 +414,7 @@ scale = Vector2( 0.192627, 0.192627 )
 z_index = -1
 frames = SubResource( 14 )
 animation = "idle"
-frame = 3
+frame = 8
 playing = true
 
 [node name="PlayerHurtbox" type="CollisionShape2D" parent="GameLayer/Player"]
@@ -438,7 +438,7 @@ scale = Vector2( 0.16, 0.16 )
 [node name="EnemySprite" type="AnimatedSprite" parent="GameLayer/EnemyExample"]
 position = Vector2( 0.00439453, -6.24988 )
 frames = SubResource( 46 )
-animation = "walk"
+animation = "swipe"
 frame = 1
 playing = true
 __meta__ = {
