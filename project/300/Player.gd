@@ -139,7 +139,9 @@ func _on_Sword_area_entered(area):
 	
 func _on_Hurtbox_area_entered(area):
 	print("You died")
+	area.get_parent().attack()
 	$PlayerSprite.play("death")
+	speed = 0
 	game.playing = false
 
 

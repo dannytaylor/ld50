@@ -27,6 +27,11 @@ func wiggle(max_x=3, max_y=3):
 	$EnemySprite.translate(Vector2((randf()-0.5)*max_x*2, (randf()-0.5)*max_y*2))
 	v_offset += (randf()-0.5) * 1
 
+func attack():
+	if $EnemySprite.animation != ('swipe'):
+		$EnemySprite.play('swipe')
+		walk_speed = 0
+
 func die():
 	# on play sound/anim on first death hit
 	if timer.is_stopped():
