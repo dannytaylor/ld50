@@ -14,6 +14,11 @@ config/name="ld50"
 run/main_scene="res://300/Game.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=960
+window/size/height=480
+
 [input]
 
 player_attack={
