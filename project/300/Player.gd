@@ -1,10 +1,10 @@
 extends PathFollow2D
 
-
+var dead = false
 export(Vector2) var movespeed = Vector2(4, 8)
 var speed = -1
 var direction = -1
-onready var timer = $Timer
+onready var timer = $AttackTimer
 
 export(float) var max_stamina = 100
 var stamina = max_stamina
@@ -38,6 +38,8 @@ func spend_stamina(amount):
 	stamina = max(0, stamina-amount)
 	if stamina == 0:
 		exhausted = true
+		$ExhaustedAudio.play()
+		$PlayerSprite.play("kneel")
 
 func attack():
 	
@@ -65,14 +67,16 @@ func attack():
 	timer.start(attack_duration - attack_windup)
 	yield(timer, "timeout")
 
-	
-	
 	# Attack is done
 	$Sword.monitoring = false
 	$Sword/SwordSprite.play("static_back")
-	$PlayerSprite.play("idle")
+	
 	attack_lock.unlock()
-
+	
+	# if attack used up last of stamina
+	if $PlayerSprite.animation != "kneel":
+		$PlayerSprite.play("idle")
+		
 func special():
 	
 	if exhausted:
@@ -93,10 +97,12 @@ func special():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-		
+	
+	if not dead:
 		# Recover stamina
 		stamina = min(stamina + stamina_regen*delta, max_stamina)
 		if exhausted and stamina == max_stamina:
+			$PlayerSprite.play("stand")
 			exhausted = false
 		
 		# for stamina indicator appearance
@@ -111,6 +117,14 @@ func _process(delta):
 		offset += speed * delta
 		if unit_offset >= 1 || unit_offset <= 0:
 			reset_speed()
+			
+		
+	else: # fade/move player items
+		$StaminaIndicator.modulate.a -= delta
+		$Sword.modulate.a -= delta/3.0
+		$Shield.modulate.a -= delta/3.0
+		$Sword.position.y += delta*64
+		$Shield.position.y += delta*64
 
 func move_shield(event: InputEventMouseMotion):
 	
@@ -123,13 +137,13 @@ func move_shield(event: InputEventMouseMotion):
 	$Shield.rotation = angle
 
 func _unhandled_input(event):
-	if event is InputEventMouseMotion:
-		move_shield(event)
-	elif event.is_action_pressed("player_attack"):
-		attack()	
-	elif event.is_action_pressed("player_special"):
-		special()
-
+	if not dead:
+		if event is InputEventMouseMotion:
+			move_shield(event)
+		elif event.is_action_pressed("player_attack"):
+			attack()	
+		elif event.is_action_pressed("player_special"):
+			special()
 
 func _on_Sword_area_entered(area):
 	print("Nice")
@@ -140,9 +154,13 @@ func _on_Sword_area_entered(area):
 func _on_Hurtbox_area_entered(area):
 	print("You died")
 	area.get_parent().attack()
-	$PlayerSprite.play("death")
-	speed = 0
-	game.playing = false
+	if not dead:
+		$PlayerSprite.play("death")
+		$PlayerDeath.play()
+		# $Shield.visible = false
+		dead = true
+		speed = 0
+		game.playing = false
 
 
 func _on_Special_area_entered(area):
@@ -163,7 +181,9 @@ func _on_Area2D_area_entered(area):
 	area.get_parent().die()
 	
 func _on_PlayerSprite_animation_finished():
-#	if $PlayerSprite.animation == "slice":
-#		$PlayerSprite.play("idle")
 	if $PlayerSprite.animation == "block":
+		$PlayerSprite.play("idle")
+	elif $PlayerSprite.animation == "kneel":
+		$PlayerSprite.play("exhausted")
+	elif $PlayerSprite.animation == "stand":
 		$PlayerSprite.play("idle")

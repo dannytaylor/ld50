@@ -1,6 +1,6 @@
 extends PathFollow2D
 
-export(float) var walk_speed = 0.05
+export(float) var walk_speed = 0.04
 export(float) var death_duration = 1.0
 onready var timer = $DeathTimer
 onready var alpha_mod = 0
@@ -19,7 +19,7 @@ func _process(delta):
 		alpha_mod -= delta/1.5
 		$EnemySprite.modulate = Color(1.0,1.0,1.0,alpha_mod)
 	elif alpha_mod < 1.0: # fade in
-		alpha_mod += delta/8.0
+		alpha_mod += delta*walk_speed*4
 		$EnemySprite.modulate = Color(1.0,1.0,1.0,alpha_mod)
 	pass
 
