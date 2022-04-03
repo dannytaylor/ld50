@@ -14,7 +14,7 @@ export(float) var attack_duration = 0.35 # total including windup
 export(float) var stamina_regen = 30  # Per second
 export(float) var attack_cost = 35
 
-export(float) var stamina_scale_max = 0.3 # max scale of stamina indicator texture
+export(float) var stamina_scale_max = 0.15 # max scale of stamina indicator texture
 export(float) var stamina_alpha_max = 0.1
 
 var attack_lock = Mutex.new()
@@ -100,11 +100,11 @@ func _process(delta):
 			exhausted = false
 		
 		# for stamina indicator appearance
-		var stamina_scale = stamina_scale_max * stamina/max_stamina
+		var stamina_scale = stamina_scale_max + stamina_scale_max * stamina/max_stamina
 		var stamina_alpha = stamina_alpha_max * stamina/max_stamina
 		$StaminaIndicator.scale = Vector2(stamina_scale,stamina_scale)
 		if exhausted:
-			$StaminaIndicator.modulate = Color(0.922, 0.152, 0.246,0.2)
+			$StaminaIndicator.modulate = Color(0.922, 0.152, 0.246,stamina_alpha_max*2)
 		else:
 			$StaminaIndicator.modulate = Color(1.0,1.0,1.0,stamina_alpha)
 		
@@ -133,8 +133,9 @@ func _unhandled_input(event):
 
 func _on_Sword_area_entered(area):
 	print("Nice")
-	game.score += 1 # need to fix it so doesn't give extra point for hitting while dying
-	area.get_parent().die()
+	# only +1 on first hit, not on hitting while in death timer
+	if area.get_parent().die():
+		game.score += 1	
 	
 func _on_Hurtbox_area_entered(area):
 	print("You died")
@@ -144,8 +145,10 @@ func _on_Hurtbox_area_entered(area):
 
 func _on_Special_area_entered(area):
 	print("Nice special")
-	game.score += 1
-	area.get_parent().die()
+	
+	# only +1 on first hit, not on hitting while in death timer
+	if area.get_parent().die():
+		game.score += 1	
 
 
 func _on_Area2D_area_entered(area):

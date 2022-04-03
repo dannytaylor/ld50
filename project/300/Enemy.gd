@@ -15,11 +15,11 @@ func _process(delta):
 	unit_offset += walk_speed * delta
 	
 	# alpha fade in/out on spawn/death
-	if not timer.is_stopped():
+	if not timer.is_stopped(): # fade out on death
 		alpha_mod -= delta/1.5
 		$EnemySprite.modulate = Color(1.0,1.0,1.0,alpha_mod)
-	elif alpha_mod < 1.0:
-		alpha_mod += delta/6.0
+	elif alpha_mod < 1.0: # fade in
+		alpha_mod += delta/8.0
 		$EnemySprite.modulate = Color(1.0,1.0,1.0,alpha_mod)
 	pass
 
@@ -33,6 +33,8 @@ func die():
 		$EnemySprite.play('death')
 		$DeathSound.play()
 		walk_speed = 0
+	else:
+		return false
 	timer.start(death_duration)
 	yield(timer, "timeout")
 	queue_free()
