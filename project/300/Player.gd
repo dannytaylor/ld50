@@ -88,8 +88,16 @@ func _process(delta):
 		if unit_offset >= 1 || unit_offset <= 0:
 			reset_speed()
 
+func move_shield(event: InputEventMouseMotion):
+	
+	# Should should rotate around the player
+	var angle = global_position.angle_to_point(event.position)
+	$Shield.rotation = angle
+
 func _unhandled_input(event):
-	if event.is_action_pressed("player_attack"):
+	if event is InputEventMouseMotion:
+		move_shield(event)
+	elif event.is_action_pressed("player_attack"):
 		attack()
 	elif event.is_action_pressed("player_special"):
 		special()
@@ -98,7 +106,7 @@ func _unhandled_input(event):
 func _on_Sword_area_entered(area):
 	print("Nice")
 	game.score += 1
-	area.get_parent().queue_free()
+	area.get_parent().die()
 	
 func _on_Hurtbox_area_entered(area):
 	print("You died")
@@ -108,4 +116,10 @@ func _on_Hurtbox_area_entered(area):
 func _on_Special_area_entered(area):
 	print("Nice special")
 	game.score += 1
-	area.get_parent().queue_free()
+	area.get_parent().die()
+
+
+func _on_Area2D_area_entered(area):
+	print("Nice block")
+	game.score += 1
+	area.get_parent().die()
