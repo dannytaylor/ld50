@@ -5,14 +5,14 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 
-[node name="Enemy" type="PathFollow2D"]
+[node name="Enemy" type="PathFollow2D" groups=["enemy"]]
 rotate = false
 loop = false
 script = ExtResource( 2 )
 
 [node name="Enemy" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 5
+collision_layer = 256
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
 shape = SubResource( 1 )

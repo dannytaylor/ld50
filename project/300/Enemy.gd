@@ -15,3 +15,6 @@ func _process(delta):
 func wiggle(max_x=3, max_y=3):
 	$Sprite.translate(Vector2((randf()-0.5)*max_x*2, (randf()-0.5)*max_y*2))
 	v_offset += (randf()-0.5) * 1
+
+func die():
+	queue_free()
