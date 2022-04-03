@@ -1,0 +1,469 @@
+[gd_scene load_steps=58 format=2]
+
+[ext_resource path="res://300/EnemySpawner.gd" type="Script" id=1]
+[ext_resource path="res://sprites/Vegur-Bold.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://300/army_front.png" type="Texture" id=3]
+[ext_resource path="res://300/army_back.png" type="Texture" id=4]
+[ext_resource path="res://300/Army.gd" type="Script" id=5]
+[ext_resource path="res://300/Player.gd" type="Script" id=6]
+[ext_resource path="res://sprites/blob_texture.png" type="Texture" id=7]
+[ext_resource path="res://sprites/shield.png" type="Texture" id=8]
+[ext_resource path="res://300/Game.gd" type="Script" id=9]
+[ext_resource path="res://godot.png" type="Texture" id=10]
+[ext_resource path="res://sprites/player_death.png" type="Texture" id=11]
+[ext_resource path="res://300/ArrowSpawner.gd" type="Script" id=12]
+[ext_resource path="res://sprites/cliff.png" type="Texture" id=13]
+[ext_resource path="res://sprites/moon.png" type="Texture" id=14]
+[ext_resource path="res://sprites/bg.png" type="Texture" id=15]
+[ext_resource path="res://sprites/skull_icon.png" type="Texture" id=16]
+[ext_resource path="res://sprites/obol_icon.png" type="Texture" id=17]
+[ext_resource path="res://sprites/sword.png" type="Texture" id=18]
+[ext_resource path="res://sprites/blobtext.gdshader" type="Shader" id=19]
+[ext_resource path="res://sprites/player_slice.png" type="Texture" id=20]
+[ext_resource path="res://sprites/player_idle.png" type="Texture" id=21]
+[ext_resource path="res://sprites/player_block.png" type="Texture" id=22]
+[ext_resource path="res://sprites/circle.png" type="Texture" id=23]
+
+[sub_resource type="ShaderMaterial" id=36]
+shader = ExtResource( 19 )
+shader_param/blob_threshold = 1.15
+shader_param/background_col = Color( 1, 0, 1, 0 )
+shader_param/blob_col = Color( 1, 1, 1, 1 )
+shader_param/mask_texture = ExtResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=8]
+emission_shape = 1
+emission_sphere_radius = 0.01
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 29.41
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+
+[sub_resource type="Curve2D" id=2]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 304, 362, 0, 0, 0, 0, 349, 316, 0, 0, 0, 0, 521, 303, 0, 0, 0, 0, 641, 309, 0, 0, 0, 0, 908, 312, 0, 0, 0, 0, 991, 370 )
+}
+
+[sub_resource type="Curve2D" id=6]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 382, 306, -174.598, 6.80543, 174.598, -6.80543, 555, 79, 0, 0, 0, 0, 737.274, 280.124 )
+}
+
+[sub_resource type="Curve2D" id=3]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 698, 279, 0, 0, 0, 0, 715, 278, 0, 0, 0, 0, 751, 281, 0, 0, 0, 0, 772, 279, 0, 0, 0, 0, 811, 280 )
+}
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="AtlasTexture" id=16]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=17]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 0, 512, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=18]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 0, 1024, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=19]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 0, 1536, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=20]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 0, 2048, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=21]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 0, 2560, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=22]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 0, 3072, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=23]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 0, 3584, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=24]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 0, 4096, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 21 )
+region = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 21 )
+region = Rect2( 0, 512, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=29]
+flags = 4
+atlas = ExtResource( 21 )
+region = Rect2( 0, 1024, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 4
+atlas = ExtResource( 21 )
+region = Rect2( 0, 1536, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=30]
+flags = 4
+atlas = ExtResource( 21 )
+region = Rect2( 0, 2048, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 4
+atlas = ExtResource( 21 )
+region = Rect2( 0, 2560, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 4
+atlas = ExtResource( 21 )
+region = Rect2( 0, 3072, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 21 )
+region = Rect2( 0, 3584, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 4
+atlas = ExtResource( 21 )
+region = Rect2( 0, 4096, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 4
+atlas = ExtResource( 21 )
+region = Rect2( 0, 4608, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=25]
+flags = 4
+atlas = ExtResource( 22 )
+region = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=26]
+flags = 4
+atlas = ExtResource( 11 )
+region = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=27]
+flags = 4
+atlas = ExtResource( 11 )
+region = Rect2( 0, 512, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=28]
+flags = 4
+atlas = ExtResource( 11 )
+region = Rect2( 0, 1024, 512, 512 )
+
+[sub_resource type="SpriteFrames" id=31]
+animations = [ {
+"frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"loop": false,
+"name": "slice",
+"speed": 16.0
+}, {
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 29 ), SubResource( 7 ), SubResource( 30 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
+"loop": true,
+"name": "idle",
+"speed": 8.0
+}, {
+"frames": [ SubResource( 25 ) ],
+"loop": false,
+"name": "block",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 4 ) ],
+"loop": true,
+"name": "static",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 26 ), SubResource( 27 ), SubResource( 27 ), SubResource( 28 ), SubResource( 28 ) ],
+"loop": false,
+"name": "death",
+"speed": 4.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=32]
+extents = Vector2( 34, 24.5 )
+
+[sub_resource type="CircleShape2D" id=33]
+radius = 12.0
+
+[sub_resource type="RectangleShape2D" id=34]
+extents = Vector2( 7.5, 21 )
+
+[sub_resource type="DynamicFont" id=35]
+size = 92
+use_mipmaps = true
+use_filter = true
+extra_spacing_bottom = 12
+font_data = ExtResource( 2 )
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 9 )
+
+[node name="Background" type="Node2D" parent="."]
+z_index = -3
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="EnemyBlob" type="Sprite" parent="Background"]
+material = SubResource( 36 )
+position = Vector2( 132, 242 )
+scale = Vector2( 8.59375, 3.78125 )
+z_index = 1
+texture = ExtResource( 10 )
+
+[node name="Bg" type="Sprite" parent="Background"]
+position = Vector2( 485.5, 239.75 )
+scale = Vector2( 0.405417, 0.405417 )
+texture = ExtResource( 15 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Moon" type="Sprite" parent="Background"]
+position = Vector2( 106, 66 )
+rotation = -0.000186145
+scale = Vector2( 0.4, 0.4 )
+texture = ExtResource( 14 )
+
+[node name="MoonSparkle" type="Particles2D" parent="Background/Moon"]
+position = Vector2( -6.10352e-05, -5.79346 )
+speed_scale = 0.0
+process_material = SubResource( 8 )
+
+[node name="Tween" type="Tween" parent="Background"]
+
+[node name="Foreground" type="Node2D" parent="."]
+position = Vector2( 7.62939e-06, 7.62939e-06 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Cliff" type="Sprite" parent="Foreground"]
+position = Vector2( 362, 243 )
+scale = Vector2( 0.397756, 0.397756 )
+texture = ExtResource( 13 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ArmyBack" type="Sprite" parent="."]
+visible = false
+position = Vector2( 156, 218 )
+texture = ExtResource( 4 )
+script = ExtResource( 5 )
+
+[node name="EnemyPath" type="Path2D" parent="."]
+position = Vector2( -306, -74 )
+curve = SubResource( 2 )
+
+[node name="ArrowSpawner" type="Node2D" parent="."]
+script = ExtResource( 12 )
+
+[node name="ArrowPathTemplate" type="Path2D" parent="ArrowSpawner"]
+position = Vector2( -411.077, 11.8326 )
+scale = Vector2( 1.27507, 0.85022 )
+curve = SubResource( 6 )
+
+[node name="ConstantSources" type="Node2D" parent="ArrowSpawner"]
+
+[node name="Position2D" type="Position2D" parent="ArrowSpawner/ConstantSources"]
+position = Vector2( 225, 281 )
+
+[node name="Position2D2" type="Position2D" parent="ArrowSpawner/ConstantSources"]
+position = Vector2( 310, 302 )
+
+[node name="Position2D3" type="Position2D" parent="ArrowSpawner/ConstantSources"]
+position = Vector2( 441, 289 )
+
+[node name="Position2D4" type="Position2D" parent="ArrowSpawner/ConstantSources"]
+position = Vector2( 373, 279 )
+
+[node name="Position2D5" type="Position2D" parent="ArrowSpawner/ConstantSources"]
+position = Vector2( 1052, 291 )
+
+[node name="Position2D6" type="Position2D" parent="ArrowSpawner/ConstantSources"]
+position = Vector2( 1129, 293 )
+
+[node name="Position2D7" type="Position2D" parent="ArrowSpawner/ConstantSources"]
+position = Vector2( 1081, 89 )
+
+[node name="Position2D8" type="Position2D" parent="ArrowSpawner/ConstantSources"]
+position = Vector2( 71, 292 )
+
+[node name="Position2D9" type="Position2D" parent="ArrowSpawner/ConstantSources"]
+position = Vector2( 93, 110 )
+
+[node name="Timer" type="Timer" parent="ArrowSpawner"]
+
+[node name="ArmyFront" type="Sprite" parent="."]
+visible = false
+position = Vector2( 199, 265 )
+texture = ExtResource( 3 )
+script = ExtResource( 5 )
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+position = Vector2( 282, 234 )
+script = ExtResource( 1 )
+
+[node name="Timer" type="Timer" parent="EnemySpawner"]
+
+[node name="PlayerPath" type="Path2D" parent="."]
+position = Vector2( -218, -64 )
+curve = SubResource( 3 )
+
+[node name="Player" type="PathFollow2D" parent="PlayerPath" groups=["player"]]
+position = Vector2( 698, 279 )
+rotate = false
+loop = false
+script = ExtResource( 6 )
+
+[node name="Hurtbox" type="Area2D" parent="PlayerPath/Player"]
+position = Vector2( 2.99997, 10 )
+rotation = -0.286033
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerPath/Player/Hurtbox"]
+shape = SubResource( 1 )
+
+[node name="PlayerSprite" type="AnimatedSprite" parent="PlayerPath/Player"]
+position = Vector2( 4, 2 )
+scale = Vector2( 0.15, 0.15 )
+z_index = -1
+frames = SubResource( 31 )
+animation = "idle"
+frame = 8
+playing = true
+
+[node name="PlayerAreaIndicator" type="Sprite" parent="PlayerPath/Player"]
+modulate = Color( 1, 1, 1, 0.12549 )
+position = Vector2( 2, 17 )
+scale = Vector2( 0.289307, 0.289307 )
+z_index = -1
+texture = ExtResource( 23 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Timer" type="Timer" parent="PlayerPath/Player"]
+
+[node name="Sword" type="Area2D" parent="PlayerPath/Player"]
+visible = false
+position = Vector2( -16.0002, -2.99994 )
+collision_layer = 4
+collision_mask = 256
+monitoring = false
+
+[node name="SwordSprite" type="Sprite" parent="PlayerPath/Player/Sword"]
+position = Vector2( -78, 10 )
+rotation = 2.66933
+scale = Vector2( 0.221486, 0.223274 )
+texture = ExtResource( 18 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerPath/Player/Sword"]
+visible = false
+position = Vector2( -75, 13.5 )
+shape = SubResource( 32 )
+
+[node name="Special" type="Area2D" parent="PlayerPath/Player"]
+collision_layer = 8
+collision_mask = 256
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerPath/Player/Special"]
+position = Vector2( 1, 6 )
+shape = SubResource( 33 )
+
+[node name="Shield" type="Node2D" parent="PlayerPath/Player"]
+
+[node name="ShieldSprite" type="Sprite" parent="PlayerPath/Player/Shield"]
+position = Vector2( -50, 7 )
+rotation = -0.409179
+scale = Vector2( 0.210193, 0.231225 )
+texture = ExtResource( 8 )
+
+[node name="Area2D" type="Area2D" parent="PlayerPath/Player/Shield"]
+position = Vector2( -45.5252, 2.60597 )
+collision_layer = 0
+collision_mask = 512
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerPath/Player/Shield/Area2D"]
+position = Vector2( -7.47482, 4.39403 )
+shape = SubResource( 34 )
+
+[node name="UI" type="Control" parent="."]
+margin_left = 15.0
+margin_top = 403.0
+margin_right = 55.0
+margin_bottom = 443.0
+rect_scale = Vector2( 0.4, 0.4 )
+
+[node name="LifeContainer" type="HBoxContainer" parent="UI"]
+margin_left = 32.0
+margin_top = -148.0
+margin_right = 182.0
+margin_bottom = 2.0
+
+[node name="LifeIcon" type="TextureRect" parent="UI/LifeContainer"]
+margin_right = 150.0
+margin_bottom = 150.0
+texture = ExtResource( 17 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ScoreContainer" type="HBoxContainer" parent="UI"]
+margin_left = 34.0
+margin_top = 30.0
+margin_right = 254.0
+margin_bottom = 162.0
+
+[node name="ScoreIcon" type="TextureRect" parent="UI/ScoreContainer"]
+margin_right = 132.0
+margin_bottom = 132.0
+texture = ExtResource( 16 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Spacer" type="Control" parent="UI/ScoreContainer"]
+margin_left = 136.0
+margin_right = 168.0
+margin_bottom = 132.0
+rect_min_size = Vector2( 32, 0 )
+
+[node name="ScoreValue" type="Label" parent="UI/ScoreContainer"]
+margin_left = 172.0
+margin_top = 4.0
+margin_right = 220.0
+margin_bottom = 127.0
+custom_fonts/font = SubResource( 35 )
+text = "0"
+
+[connection signal="area_entered" from="PlayerPath/Player/Hurtbox" to="PlayerPath/Player" method="_on_Hurtbox_area_entered"]
+[connection signal="animation_finished" from="PlayerPath/Player/PlayerSprite" to="PlayerPath/Player" method="_on_PlayerSprite_animation_finished"]
+[connection signal="area_entered" from="PlayerPath/Player/Sword" to="PlayerPath/Player" method="_on_Sword_area_entered"]
+[connection signal="area_entered" from="PlayerPath/Player/Special" to="PlayerPath/Player" method="_on_Special_area_entered"]
+[connection signal="area_entered" from="PlayerPath/Player/Shield/Area2D" to="PlayerPath/Player" method="_on_Area2D_area_entered"]

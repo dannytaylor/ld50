@@ -40,6 +40,8 @@ func attack():
 	if exhausted:
 		return
 	
+	$PlayerSprite.play("slice")
+	
 	spend_stamina(attack_cost)
 	
 	# Only let one thread handle the attack, but we can exteend it!
@@ -92,13 +94,17 @@ func move_shield(event: InputEventMouseMotion):
 	
 	# Should should rotate around the player
 	var angle = global_position.angle_to_point(event.position)
+	if angle > -1.5708 and angle < 1.5708 :
+		$Shield/ShieldSprite.flip_v = false
+	else:
+		$Shield/ShieldSprite.flip_v = true
 	$Shield.rotation = angle
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		move_shield(event)
 	elif event.is_action_pressed("player_attack"):
-		attack()
+		attack()	
 	elif event.is_action_pressed("player_special"):
 		special()
 
@@ -110,6 +116,7 @@ func _on_Sword_area_entered(area):
 	
 func _on_Hurtbox_area_entered(area):
 	print("You died")
+	$PlayerSprite.play("death")
 	game.playing = false
 
 
@@ -121,5 +128,12 @@ func _on_Special_area_entered(area):
 
 func _on_Area2D_area_entered(area):
 	print("Nice block")
+	$PlayerSprite.play("block")
 	game.score += 1
 	area.get_parent().die()
+	
+func _on_PlayerSprite_animation_finished():
+	if $PlayerSprite.animation == "slice":
+		$PlayerSprite.play("idle")
+	elif $PlayerSprite.animation == "block":
+		$PlayerSprite.play("idle")
