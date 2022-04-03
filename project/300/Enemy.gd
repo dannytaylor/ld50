@@ -17,4 +17,5 @@ func wiggle(max_x=3, max_y=3):
 	v_offset += (randf()-0.5) * 1
 
 func die():
+	$EnemySprite.play('death')
 	queue_free()

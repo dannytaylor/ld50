@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=71 format=2]
 
 [ext_resource path="res://300/EnemySpawner.gd" type="Script" id=1]
 [ext_resource path="res://sprites/Vegur-Bold.otf" type="DynamicFontData" id=2]
@@ -17,12 +17,16 @@
 [ext_resource path="res://sprites/bg.png" type="Texture" id=15]
 [ext_resource path="res://sprites/skull_icon.png" type="Texture" id=16]
 [ext_resource path="res://sprites/obol_icon.png" type="Texture" id=17]
-[ext_resource path="res://sprites/sword.png" type="Texture" id=18]
+[ext_resource path="res://sprites/sword_slice.png" type="Texture" id=18]
 [ext_resource path="res://sprites/blobtext.gdshader" type="Shader" id=19]
 [ext_resource path="res://sprites/player_slice.png" type="Texture" id=20]
 [ext_resource path="res://sprites/player_idle.png" type="Texture" id=21]
 [ext_resource path="res://sprites/player_block.png" type="Texture" id=22]
 [ext_resource path="res://sprites/circle.png" type="Texture" id=23]
+[ext_resource path="res://audio/iamoneabe - rbl.mp3" type="AudioStream" id=24]
+[ext_resource path="res://sprites/shield_hit.png" type="Texture" id=25]
+[ext_resource path="res://audio/slice.ogg" type="AudioStream" id=26]
+[ext_resource path="res://audio/clink.ogg" type="AudioStream" id=27]
 
 [sub_resource type="ShaderMaterial" id=36]
 shader = ExtResource( 19 )
@@ -43,12 +47,12 @@ orbit_velocity_random = 0.0
 
 [sub_resource type="Curve2D" id=2]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 304, 362, 0, 0, 0, 0, 349, 316, 0, 0, 0, 0, 521, 303, 0, 0, 0, 0, 641, 309, 0, 0, 0, 0, 908, 312, 0, 0, 0, 0, 991, 370 )
+"points": PoolVector2Array( 0, 0, 0, 0, 304, 345, 0, 0, 0, 0, 349, 316, 0, 0, 0, 0, 521, 303, 0, 0, 0, 0, 641, 309, 0, 0, 0, 0, 908, 312, 0, 0, 0, 0, 974, 351, 0, 0, 0, 0, 991, 370 )
 }
 
 [sub_resource type="Curve2D" id=6]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 382, 306, -174.598, 6.80543, 174.598, -6.80543, 555, 79, 0, 0, 0, 0, 737.274, 280.124 )
+"points": PoolVector2Array( 0, 0, 0, 0, 382, 306, -183.999, 2.39979, 183.999, -2.39979, 600.592, 37.7748, 0, 0, 0, 0, 835.114, 252.609 )
 }
 
 [sub_resource type="Curve2D" id=3]
@@ -63,40 +67,20 @@ flags = 4
 atlas = ExtResource( 20 )
 region = Rect2( 0, 0, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=17]
-flags = 4
-atlas = ExtResource( 20 )
-region = Rect2( 0, 512, 512, 512 )
-
 [sub_resource type="AtlasTexture" id=18]
 flags = 4
 atlas = ExtResource( 20 )
 region = Rect2( 0, 1024, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=19]
-flags = 4
-atlas = ExtResource( 20 )
-region = Rect2( 0, 1536, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=20]
 flags = 4
 atlas = ExtResource( 20 )
 region = Rect2( 0, 2048, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=21]
-flags = 4
-atlas = ExtResource( 20 )
-region = Rect2( 0, 2560, 512, 512 )
-
 [sub_resource type="AtlasTexture" id=22]
 flags = 4
 atlas = ExtResource( 20 )
 region = Rect2( 0, 3072, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=23]
-flags = 4
-atlas = ExtResource( 20 )
-region = Rect2( 0, 3584, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=24]
 flags = 4
@@ -153,11 +137,6 @@ flags = 4
 atlas = ExtResource( 21 )
 region = Rect2( 0, 4608, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=25]
-flags = 4
-atlas = ExtResource( 22 )
-region = Rect2( 0, 0, 512, 512 )
-
 [sub_resource type="AtlasTexture" id=26]
 flags = 4
 atlas = ExtResource( 11 )
@@ -173,22 +152,22 @@ flags = 4
 atlas = ExtResource( 11 )
 region = Rect2( 0, 1024, 512, 512 )
 
+[sub_resource type="AtlasTexture" id=25]
+flags = 4
+atlas = ExtResource( 22 )
+region = Rect2( 0, 0, 512, 512 )
+
 [sub_resource type="SpriteFrames" id=31]
 animations = [ {
-"frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"frames": [ SubResource( 16 ), SubResource( 18 ), SubResource( 20 ), SubResource( 22 ), SubResource( 24 ) ],
 "loop": false,
 "name": "slice",
-"speed": 16.0
+"speed": 15.0
 }, {
 "frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 29 ), SubResource( 7 ), SubResource( 30 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
 "loop": true,
 "name": "idle",
 "speed": 8.0
-}, {
-"frames": [ SubResource( 25 ) ],
-"loop": false,
-"name": "block",
-"speed": 1.0
 }, {
 "frames": [ SubResource( 4 ) ],
 "loop": true,
@@ -199,6 +178,84 @@ animations = [ {
 "loop": false,
 "name": "death",
 "speed": 4.0
+}, {
+"frames": [ SubResource( 25 ) ],
+"loop": false,
+"name": "block",
+"speed": 1.0
+} ]
+
+[sub_resource type="AtlasTexture" id=38]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 0, 1024, 1024 )
+
+[sub_resource type="AtlasTexture" id=39]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 1024, 1024, 1024 )
+
+[sub_resource type="AtlasTexture" id=40]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 2048, 1024, 1024 )
+
+[sub_resource type="AtlasTexture" id=41]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 3072, 1024, 1024 )
+
+[sub_resource type="AtlasTexture" id=42]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 4096, 1024, 1024 )
+
+[sub_resource type="AtlasTexture" id=43]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 5120, 1024, 1024 )
+
+[sub_resource type="AtlasTexture" id=44]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 6144, 1024, 1024 )
+
+[sub_resource type="AtlasTexture" id=45]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 7168, 1024, 1024 )
+
+[sub_resource type="AtlasTexture" id=46]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 8192, 1024, 1024 )
+
+[sub_resource type="AtlasTexture" id=47]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 8192, 1024, 1024 )
+
+[sub_resource type="AtlasTexture" id=48]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 0, 0, 1024, 1024 )
+
+[sub_resource type="SpriteFrames" id=49]
+animations = [ {
+"frames": [ SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ) ],
+"loop": false,
+"name": "slice",
+"speed": 24.0
+}, {
+"frames": [ SubResource( 47 ) ],
+"loop": false,
+"name": "static_forward",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 48 ) ],
+"loop": false,
+"name": "static_back",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=32]
@@ -207,8 +264,21 @@ extents = Vector2( 34, 24.5 )
 [sub_resource type="CircleShape2D" id=33]
 radius = 12.0
 
+[sub_resource type="SpriteFrames" id=37]
+animations = [ {
+"frames": [ ExtResource( 8 ) ],
+"loop": false,
+"name": "static",
+"speed": 4.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 25 ), ExtResource( 8 ) ],
+"loop": false,
+"name": "block",
+"speed": 12.0
+} ]
+
 [sub_resource type="RectangleShape2D" id=34]
-extents = Vector2( 7.5, 21 )
+extents = Vector2( 11, 31.5 )
 
 [sub_resource type="DynamicFont" id=35]
 size = 92
@@ -275,30 +345,30 @@ texture = ExtResource( 4 )
 script = ExtResource( 5 )
 
 [node name="EnemyPath" type="Path2D" parent="."]
-position = Vector2( -306, -74 )
+position = Vector2( -306, -81 )
 curve = SubResource( 2 )
 
 [node name="ArrowSpawner" type="Node2D" parent="."]
 script = ExtResource( 12 )
 
 [node name="ArrowPathTemplate" type="Path2D" parent="ArrowSpawner"]
-position = Vector2( -411.077, 11.8326 )
-scale = Vector2( 1.27507, 0.85022 )
+position = Vector2( -355.645, 15.2844 )
+scale = Vector2( 1.12996, 0.786652 )
 curve = SubResource( 6 )
 
 [node name="ConstantSources" type="Node2D" parent="ArrowSpawner"]
 
 [node name="Position2D" type="Position2D" parent="ArrowSpawner/ConstantSources"]
-position = Vector2( 225, 281 )
+position = Vector2( 159, 252 )
 
 [node name="Position2D2" type="Position2D" parent="ArrowSpawner/ConstantSources"]
-position = Vector2( 310, 302 )
+position = Vector2( 244, 273 )
 
 [node name="Position2D3" type="Position2D" parent="ArrowSpawner/ConstantSources"]
-position = Vector2( 441, 289 )
+position = Vector2( 375, 260 )
 
 [node name="Position2D4" type="Position2D" parent="ArrowSpawner/ConstantSources"]
-position = Vector2( 373, 279 )
+position = Vector2( 307, 250 )
 
 [node name="Position2D5" type="Position2D" parent="ArrowSpawner/ConstantSources"]
 position = Vector2( 1052, 291 )
@@ -310,10 +380,10 @@ position = Vector2( 1129, 293 )
 position = Vector2( 1081, 89 )
 
 [node name="Position2D8" type="Position2D" parent="ArrowSpawner/ConstantSources"]
-position = Vector2( 71, 292 )
+position = Vector2( 5, 263 )
 
 [node name="Position2D9" type="Position2D" parent="ArrowSpawner/ConstantSources"]
-position = Vector2( 93, 110 )
+position = Vector2( 27, 81 )
 
 [node name="Timer" type="Timer" parent="ArrowSpawner"]
 
@@ -353,7 +423,7 @@ scale = Vector2( 0.15, 0.15 )
 z_index = -1
 frames = SubResource( 31 )
 animation = "idle"
-frame = 8
+frame = 9
 playing = true
 
 [node name="PlayerAreaIndicator" type="Sprite" parent="PlayerPath/Player"]
@@ -369,22 +439,25 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="PlayerPath/Player"]
 
 [node name="Sword" type="Area2D" parent="PlayerPath/Player"]
-visible = false
 position = Vector2( -16.0002, -2.99994 )
 collision_layer = 4
 collision_mask = 256
 monitoring = false
 
-[node name="SwordSprite" type="Sprite" parent="PlayerPath/Player/Sword"]
-position = Vector2( -78, 10 )
-rotation = 2.66933
-scale = Vector2( 0.221486, 0.223274 )
-texture = ExtResource( 18 )
+[node name="SwordSprite" type="AnimatedSprite" parent="PlayerPath/Player/Sword"]
+position = Vector2( 1.00012, -34.0001 )
+scale = Vector2( 0.270215, 0.272397 )
+frames = SubResource( 49 )
+animation = "static_back"
+playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerPath/Player/Sword"]
-visible = false
 position = Vector2( -75, 13.5 )
 shape = SubResource( 32 )
+
+[node name="SwordAudio" type="AudioStreamPlayer" parent="PlayerPath/Player/Sword"]
+stream = ExtResource( 26 )
+volume_db = 24.0
 
 [node name="Special" type="Area2D" parent="PlayerPath/Player"]
 collision_layer = 8
@@ -398,20 +471,26 @@ shape = SubResource( 33 )
 
 [node name="Shield" type="Node2D" parent="PlayerPath/Player"]
 
-[node name="ShieldSprite" type="Sprite" parent="PlayerPath/Player/Shield"]
-position = Vector2( -50, 7 )
-rotation = -0.409179
-scale = Vector2( 0.210193, 0.231225 )
-texture = ExtResource( 8 )
+[node name="ShieldSprite" type="AnimatedSprite" parent="PlayerPath/Player/Shield"]
+position = Vector2( -15.6, 11.4 )
+scale = Vector2( 0.3, 0.3 )
+frames = SubResource( 37 )
+animation = "static"
+playing = true
+offset = Vector2( -96.6666, 3.33337 )
 
 [node name="Area2D" type="Area2D" parent="PlayerPath/Player/Shield"]
-position = Vector2( -45.5252, 2.60597 )
+position = Vector2( -47.6, 13.4 )
 collision_layer = 0
 collision_mask = 512
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerPath/Player/Shield/Area2D"]
-position = Vector2( -7.47482, 4.39403 )
+position = Vector2( -1.47479, -0.605972 )
 shape = SubResource( 34 )
+
+[node name="ShieldAudio" type="AudioStreamPlayer" parent="PlayerPath/Player/Shield"]
+stream = ExtResource( 27 )
+volume_db = 7.0
 
 [node name="UI" type="Control" parent="."]
 margin_left = 15.0
@@ -461,6 +540,10 @@ margin_right = 220.0
 margin_bottom = 127.0
 custom_fonts/font = SubResource( 35 )
 text = "0"
+
+[node name="MusicLoop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 24 )
+autoplay = true
 
 [connection signal="area_entered" from="PlayerPath/Player/Hurtbox" to="PlayerPath/Player" method="_on_Hurtbox_area_entered"]
 [connection signal="animation_finished" from="PlayerPath/Player/PlayerSprite" to="PlayerPath/Player" method="_on_PlayerSprite_animation_finished"]

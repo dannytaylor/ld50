@@ -1,7 +1,7 @@
 extends PathFollow2D
 
 
-export(Vector2) var movespeed = Vector2(8, 16)
+export(Vector2) var movespeed = Vector2(4, 8)
 var speed = -1
 var direction = -1
 onready var timer = $Timer
@@ -9,7 +9,7 @@ onready var timer = $Timer
 export(float) var max_stamina = 100
 var stamina = max_stamina
 var exhausted = false
-export(float) var attack_duration = 0.2
+export(float) var attack_duration = 0.4
 export(float) var stamina_regen = 30  # Per second
 export(float) var attack_cost = 10
 var attack_lock = Mutex.new()
@@ -49,15 +49,20 @@ func attack():
 		timer.time_left = attack_duration
 		return
 	
-	#Spawn the sword and start a timer
+	#Player the sword anim and start a timer
 	$Sword.monitoring = true
-	$Sword.visible = true
+	# $Sword.visible = true
+	$Sword/SwordSprite.play("slice")
+	$Sword/SwordAudio.play()
+	
 	timer.start(attack_duration)
 	yield(timer, "timeout")
 	
 	# Attack is done
 	$Sword.monitoring = false
-	$Sword.visible = false
+	# $Sword.visible = false
+	$Sword/SwordSprite.play("static_back")
+	$PlayerSprite.play("idle")
 	attack_lock.unlock()
 
 func special():
@@ -129,11 +134,14 @@ func _on_Special_area_entered(area):
 func _on_Area2D_area_entered(area):
 	print("Nice block")
 	$PlayerSprite.play("block")
+	$Shield/ShieldSprite.play("block")
+	$Shield/ShieldSprite.frame = 0
+	$Shield/ShieldAudio.play()
 	game.score += 1
 	area.get_parent().die()
 	
 func _on_PlayerSprite_animation_finished():
-	if $PlayerSprite.animation == "slice":
-		$PlayerSprite.play("idle")
-	elif $PlayerSprite.animation == "block":
+#	if $PlayerSprite.animation == "slice":
+#		$PlayerSprite.play("idle")
+	if $PlayerSprite.animation == "block":
 		$PlayerSprite.play("idle")

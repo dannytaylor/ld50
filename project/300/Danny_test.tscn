@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=72 format=2]
 
 [ext_resource path="res://sprites/moon.png" type="Texture" id=1]
 [ext_resource path="res://sprites/cliff.png" type="Texture" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://sprites/enemy_swipe.png" type="Texture" id=17]
 [ext_resource path="res://sprites/enemy_walk.png" type="Texture" id=18]
 [ext_resource path="res://sprites/enemy_death.png" type="Texture" id=19]
+[ext_resource path="res://sprites/shield_hit.png" type="Texture" id=20]
 
 [sub_resource type="ParticlesMaterial" id=1]
 emission_shape = 1
@@ -32,6 +33,19 @@ orbit_velocity_random = 0.0
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 49.2355, 17.3314 )
+
+[sub_resource type="SpriteFrames" id=53]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 20 ), ExtResource( 5 ) ],
+"loop": false,
+"name": "hit",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "static",
+"speed": 5.0
+} ]
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 20.044, 48.769 )
@@ -131,11 +145,6 @@ flags = 4
 atlas = ExtResource( 6 )
 region = Rect2( 0, 4608, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=25]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 0, 0, 512, 512 )
-
 [sub_resource type="AtlasTexture" id=26]
 flags = 4
 atlas = ExtResource( 13 )
@@ -151,6 +160,11 @@ flags = 4
 atlas = ExtResource( 13 )
 region = Rect2( 0, 1024, 512, 512 )
 
+[sub_resource type="AtlasTexture" id=25]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 0, 0, 512, 512 )
+
 [sub_resource type="SpriteFrames" id=14]
 animations = [ {
 "frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
@@ -163,11 +177,6 @@ animations = [ {
 "name": "idle",
 "speed": 8.0
 }, {
-"frames": [ SubResource( 25 ) ],
-"loop": false,
-"name": "block",
-"speed": 1.0
-}, {
 "frames": [ SubResource( 4 ) ],
 "loop": true,
 "name": "static",
@@ -177,6 +186,11 @@ animations = [ {
 "loop": false,
 "name": "death",
 "speed": 4.0
+}, {
+"frames": [ SubResource( 25 ) ],
+"loop": false,
+"name": "block",
+"speed": 1.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=31]
@@ -370,16 +384,16 @@ rotation = 0.436274
 shape = SubResource( 2 )
 
 [node name="Shield" type="Area2D" parent="GameLayer/Player"]
-rotation = -0.281481
 
-[node name="ShieldSprite" type="Sprite" parent="GameLayer/Player/Shield"]
+[node name="ShieldSprite" type="AnimatedSprite" parent="GameLayer/Player/Shield"]
 position = Vector2( -64, -43 )
-rotation = 0.101567
-scale = Vector2( 0.347656, 0.347656 )
-texture = ExtResource( 5 )
+rotation = 0.461495
+scale = Vector2( 0.394917, 0.388751 )
+frames = SubResource( 53 )
+animation = "static"
+playing = true
 
 [node name="ShieldHit" type="CollisionShape2D" parent="GameLayer/Player/Shield"]
-visible = false
 position = Vector2( -69.2651, -42.3012 )
 rotation = 0.458609
 shape = SubResource( 3 )
@@ -400,7 +414,7 @@ scale = Vector2( 0.192627, 0.192627 )
 z_index = -1
 frames = SubResource( 14 )
 animation = "idle"
-frame = 8
+frame = 3
 playing = true
 
 [node name="PlayerHurtbox" type="CollisionShape2D" parent="GameLayer/Player"]
@@ -425,6 +439,7 @@ scale = Vector2( 0.16, 0.16 )
 position = Vector2( 0.00439453, -6.24988 )
 frames = SubResource( 46 )
 animation = "walk"
+frame = 1
 playing = true
 __meta__ = {
 "_edit_lock_": true

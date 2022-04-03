@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/clink.ogg-b6468fd5052725465dc391b6047d3df2.oggstr"
+
+[deps]
+
+source_file="res://audio/clink.ogg"
+dest_files=[ "res://.import/clink.ogg-b6468fd5052725465dc391b6047d3df2.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0.0
