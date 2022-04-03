@@ -133,7 +133,7 @@ func _unhandled_input(event):
 
 func _on_Sword_area_entered(area):
 	print("Nice")
-	game.score += 1
+	game.score += 1 # need to fix it so doesn't give extra point for hitting while dying
 	area.get_parent().die()
 	
 func _on_Hurtbox_area_entered(area):

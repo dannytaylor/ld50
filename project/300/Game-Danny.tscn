@@ -511,13 +511,14 @@ stream = ExtResource( 27 )
 volume_db = 7.0
 
 [node name="UI" type="Control" parent="."]
-margin_left = 18.0
-margin_top = 397.0
-margin_right = 48.0
-margin_bottom = 450.0
+margin_left = 430.0
+margin_top = 382.0
+margin_right = 460.0
+margin_bottom = 435.0
 rect_scale = Vector2( 0.4, 0.4 )
 
 [node name="LifeContainer" type="HBoxContainer" parent="UI"]
+visible = false
 margin_left = 32.0
 margin_top = -148.0
 margin_right = 182.0
