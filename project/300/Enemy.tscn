@@ -5,7 +5,7 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 
-[node name="Enemy" type="PathFollow2D"]
+[node name="Enemy" type="PathFollow2D" groups=["enemy"]]
 rotate = false
 loop = false
 script = ExtResource( 2 )
