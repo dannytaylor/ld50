@@ -81,6 +81,9 @@ func attack():
 	if $PlayerSprite.animation != "kneel":
 		$PlayerSprite.play("idle")
 		
+	if dead: # if died during the timers
+		$PlayerSprite.play("death")
+		
 func special():
 	
 	if exhausted:
@@ -131,7 +134,7 @@ func _process(delta):
 		$Shield.position.y += delta*64
 		
 		if gameovertimer.is_stopped():
-			var ui_alpha = min(1.0,gameover.modulate.a+delta*2)
+			var ui_alpha = min(1.0,gameover.modulate.a+delta*4)
 			gameover.modulate.a = ui_alpha
 
 func move_shield(event: InputEventMouseMotion):

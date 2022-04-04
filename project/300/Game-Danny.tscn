@@ -511,7 +511,7 @@ scale = Vector2( 0.15, 0.15 )
 z_index = -1
 frames = SubResource( 31 )
 animation = "idle"
-frame = 5
+frame = 4
 playing = true
 
 [node name="StaminaIndicator" type="Sprite" parent="PlayerPath/Player"]

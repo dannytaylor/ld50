@@ -10,7 +10,7 @@ func _process(delta):
 		die()
 		
 func attack():
-	return
+	die()
 	
 func die():
 	get_parent().queue_free()
