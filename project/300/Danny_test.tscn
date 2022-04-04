@@ -36,15 +36,15 @@ extents = Vector2( 49.2355, 17.3314 )
 
 [sub_resource type="SpriteFrames" id=53]
 animations = [ {
-"frames": [ ExtResource( 5 ), ExtResource( 20 ), ExtResource( 5 ) ],
-"loop": false,
-"name": "hit",
-"speed": 8.0
-}, {
 "frames": [ ExtResource( 5 ) ],
 "loop": true,
 "name": "static",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 20 ), ExtResource( 5 ) ],
+"loop": false,
+"name": "hit",
+"speed": 8.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -384,6 +384,7 @@ rotation = 0.436274
 shape = SubResource( 2 )
 
 [node name="Shield" type="Area2D" parent="GameLayer/Player"]
+rotation = -0.313418
 
 [node name="ShieldSprite" type="AnimatedSprite" parent="GameLayer/Player/Shield"]
 position = Vector2( -64, -43 )
@@ -414,6 +415,7 @@ scale = Vector2( 0.192627, 0.192627 )
 z_index = -1
 frames = SubResource( 14 )
 animation = "idle"
+frame = 2
 playing = true
 
 [node name="PlayerHurtbox" type="CollisionShape2D" parent="GameLayer/Player"]
@@ -438,7 +440,7 @@ scale = Vector2( 0.16, 0.16 )
 position = Vector2( 0.00439453, -6.24988 )
 frames = SubResource( 46 )
 animation = "swipe"
-frame = 4
+frame = 2
 playing = true
 __meta__ = {
 "_edit_lock_": true

@@ -4,6 +4,7 @@ const ArrowScene = preload("Arrow.tscn")
 
 
 export(Vector2) var spawn_delay = Vector2(0.5, 3)
+var spawn_scale = 1.0
 
 export(Vector2) var x_wiggle = Vector2(-50, 50)
 export(Vector2) var y_wiggle = Vector2(0, 100)
@@ -49,6 +50,7 @@ func spawn_arrow(constant_only=false):
 	new_path.add_child(ArrowScene.instance())
 	
 	# Delay and spawn a new one
-	$Timer.start(rand_range(spawn_delay.x, spawn_delay.y))
+	$Timer.start(rand_range(spawn_delay.x/spawn_scale,spawn_delay.y/spawn_scale))
+	spawn_scale += 0.025
 	yield($Timer, "timeout")
 	spawn_arrow()

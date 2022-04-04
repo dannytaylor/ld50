@@ -4,9 +4,16 @@ export(float) var walk_speed = 0.04
 export(float) var death_duration = 1.0
 onready var timer = $DeathTimer
 onready var alpha_mod = 0
+var speed_scale = 10000
+onready var time = get_tree().get_root().get_node("Game").time
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	walk_speed += pow(time,2)/speed_scale
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()	
+	walk_speed = rng.randf_range(0.8, 1.2)*walk_speed
+	print(time," ",walk_speed)
 	wiggle()
 
 

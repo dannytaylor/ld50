@@ -150,8 +150,9 @@ func _unhandled_input(event):
 			move_shield(event)
 		elif event.is_action_pressed("player_attack"):
 			attack()	
-		elif event.is_action_pressed("player_special"):
-			special()
+		# disabling special temporarily - need to balance with regular attacks I think
+		#elif event.is_action_pressed("player_special"):
+		#	special()
 	elif dead:
 		if event is InputEventKey and event.scancode == KEY_X:
 			get_tree().reload_current_scene()

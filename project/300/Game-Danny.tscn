@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=2]
+[gd_scene load_steps=88 format=2]
 
 [ext_resource path="res://300/EnemySpawner.gd" type="Script" id=1]
 [ext_resource path="res://sprites/Vegur-Bold.otf" type="DynamicFontData" id=2]
@@ -32,6 +32,7 @@
 [ext_resource path="res://audio/player_death.ogg" type="AudioStream" id=30]
 [ext_resource path="res://sprites/x.png" type="Texture" id=31]
 [ext_resource path="res://sprites/gameover.png" type="Texture" id=32]
+[ext_resource path="res://300/special.png" type="Texture" id=33]
 
 [sub_resource type="ShaderMaterial" id=36]
 shader = ExtResource( 19 )
@@ -510,7 +511,7 @@ scale = Vector2( 0.15, 0.15 )
 z_index = -1
 frames = SubResource( 31 )
 animation = "idle"
-frame = 3
+frame = 9
 playing = true
 
 [node name="StaminaIndicator" type="Sprite" parent="PlayerPath/Player"]
@@ -545,14 +546,20 @@ stream = ExtResource( 26 )
 volume_db = 21.0
 
 [node name="Special" type="Area2D" parent="PlayerPath/Player"]
+visible = false
 collision_layer = 8
 collision_mask = 256
 monitoring = false
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerPath/Player/Special"]
-position = Vector2( 1, 6 )
+position = Vector2( 3, 5 )
 shape = SubResource( 33 )
+
+[node name="Sprite" type="Sprite" parent="PlayerPath/Player/Special"]
+texture = ExtResource( 33 )
+
+[node name="Tween" type="Tween" parent="PlayerPath/Player/Special"]
 
 [node name="Shield" type="Node2D" parent="PlayerPath/Player"]
 

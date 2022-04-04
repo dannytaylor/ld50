@@ -138,7 +138,6 @@ position = Vector2( 0.00439453, -6.24988 )
 scale = Vector2( 0.15, 0.15 )
 frames = SubResource( 52 )
 animation = "walk"
-frame = 7
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -148,4 +147,4 @@ __meta__ = {
 
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
-volume_db = 15.0
+volume_db = 12.0
