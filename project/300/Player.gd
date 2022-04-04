@@ -1,6 +1,9 @@
 extends PathFollow2D
 
 var dead = false
+onready var gameovertimer = $GameOverTimer
+export(float) var gameoverdelay = 2.0
+
 export(Vector2) var movespeed = Vector2(4, 8)
 var speed = -1
 var direction = -1
@@ -24,6 +27,7 @@ export(Vector2) var special_size = Vector2(1, 3)
 export(float) var special_duration = 1
 
 onready var game = $"../../"
+onready var gameover = get_tree().get_root().get_node("Game/UI/GameOver")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -118,13 +122,17 @@ func _process(delta):
 		if unit_offset >= 1 || unit_offset <= 0:
 			reset_speed()
 			
-		
-	else: # fade/move player items
+	# if dead
+	else: # fade/move player items/ui
 		$StaminaIndicator.modulate.a -= delta
 		$Sword.modulate.a -= delta/3.0
 		$Shield.modulate.a -= delta/3.0
 		$Sword.position.y += delta*64
 		$Shield.position.y += delta*64
+		
+		if gameovertimer.is_stopped():
+			var ui_alpha = min(1.0,gameover.modulate.a+delta)
+			gameover.modulate.a = ui_alpha
 
 func move_shield(event: InputEventMouseMotion):
 	
@@ -144,6 +152,9 @@ func _unhandled_input(event):
 			attack()	
 		elif event.is_action_pressed("player_special"):
 			special()
+	elif dead:
+		if event is InputEventKey and event.scancode == KEY_X:
+			get_tree().reload_current_scene()
 
 func _on_Sword_area_entered(area):
 	print("Nice")
@@ -157,10 +168,15 @@ func _on_Hurtbox_area_entered(area):
 	if not dead:
 		$PlayerSprite.play("death")
 		$PlayerDeath.play()
-		# $Shield.visible = false
+		
+		gameover.visible = true
 		dead = true
 		speed = 0
 		game.playing = false
+		
+		gameovertimer.start(gameoverdelay)
+		yield(gameovertimer, "timeout")
+		
 
 
 func _on_Special_area_entered(area):
