@@ -114,7 +114,7 @@ func _process(delta):
 		var stamina_alpha = stamina_alpha_max * stamina/max_stamina
 		$StaminaIndicator.scale = Vector2(stamina_scale,stamina_scale)
 		if exhausted:
-			$StaminaIndicator.modulate = Color(0.922, 0.152, 0.246,stamina_alpha_max*2)
+			$StaminaIndicator.modulate = Color(0.922, 0.152, 0.246,stamina_alpha_max*4)
 		else:
 			$StaminaIndicator.modulate = Color(1.0,1.0,1.0,stamina_alpha)
 		
@@ -206,3 +206,5 @@ func _on_PlayerSprite_animation_finished():
 			$PlayerSprite.play("exhausted")
 		elif $PlayerSprite.animation == "stand":
 			$PlayerSprite.play("idle")
+	else:
+		$PlayerSprite.play("death")

@@ -44,7 +44,7 @@ func spawn_arrow(constant_only=false):
 	
 	# Set start and end
 	new_path.curve.set_point_position(0, node.global_position)
-	new_path.curve.set_point_position(2, player.global_position)
+	#new_path.curve.set_point_position(2, player.global_position)
 	
 	#Give it the arrow
 	new_path.add_child(ArrowScene.instance())

@@ -13,7 +13,6 @@ func _ready():
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()	
 	walk_speed = rng.randf_range(0.8, 1.2)*walk_speed
-	print(time," ",walk_speed)
 	wiggle()
 
 

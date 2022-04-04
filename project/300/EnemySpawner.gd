@@ -6,7 +6,7 @@ onready var timer = $Timer
 onready var path = $"../EnemyPath"
 export(Vector2) var delay = Vector2(2.0, 5.0)
 var delay_scale = 1.0
-var delay_red = 0.4
+var delay_red = 0.25
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
