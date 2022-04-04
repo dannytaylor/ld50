@@ -138,6 +138,7 @@ position = Vector2( 0.00439453, -6.24988 )
 scale = Vector2( 0.15, 0.15 )
 frames = SubResource( 52 )
 animation = "walk"
+frame = 3
 playing = true
 __meta__ = {
 "_edit_lock_": true

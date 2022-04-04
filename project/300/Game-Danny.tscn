@@ -433,7 +433,7 @@ texture = ExtResource( 4 )
 script = ExtResource( 5 )
 
 [node name="EnemyPath" type="Path2D" parent="."]
-position = Vector2( -306, -81 )
+position = Vector2( -308, -94 )
 curve = SubResource( 2 )
 
 [node name="ArrowSpawner" type="Node2D" parent="."]
@@ -511,7 +511,7 @@ scale = Vector2( 0.15, 0.15 )
 z_index = -1
 frames = SubResource( 31 )
 animation = "idle"
-frame = 4
+frame = 1
 playing = true
 
 [node name="StaminaIndicator" type="Sprite" parent="PlayerPath/Player"]
