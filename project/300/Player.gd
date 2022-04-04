@@ -29,6 +29,8 @@ export(float) var special_duration = 1
 onready var game = $"../../"
 onready var gameover = get_tree().get_root().get_node("Game/UI/GameOver")
 
+var captureMouse = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -148,6 +150,7 @@ func move_shield(event: InputEventMouseMotion):
 	$Shield.rotation = angle
 
 func _unhandled_input(event):
+	
 	if not dead:
 		if event is InputEventMouseMotion:
 			move_shield(event)

@@ -246,7 +246,7 @@ animations = [ {
 "frames": [ SubResource( 25 ) ],
 "loop": false,
 "name": "block",
-"speed": 1.0
+"speed": 3.0
 }, {
 "frames": [ SubResource( 58 ), SubResource( 59 ), SubResource( 60 ) ],
 "loop": true,
@@ -433,7 +433,7 @@ texture = ExtResource( 4 )
 script = ExtResource( 5 )
 
 [node name="EnemyPath" type="Path2D" parent="."]
-position = Vector2( -308, -94 )
+position = Vector2( -308, -88 )
 curve = SubResource( 2 )
 
 [node name="ArrowSpawner" type="Node2D" parent="."]
@@ -511,7 +511,7 @@ scale = Vector2( 0.15, 0.15 )
 z_index = -1
 frames = SubResource( 31 )
 animation = "idle"
-frame = 1
+frame = 7
 playing = true
 
 [node name="StaminaIndicator" type="Sprite" parent="PlayerPath/Player"]
