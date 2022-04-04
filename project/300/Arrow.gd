@@ -8,6 +8,9 @@ func _process(delta):
 	offset += speed * delta
 	if unit_offset >= 1:
 		die()
+		
+func attack():
+	return
 	
 func die():
 	get_parent().queue_free()

@@ -131,7 +131,7 @@ func _process(delta):
 		$Shield.position.y += delta*64
 		
 		if gameovertimer.is_stopped():
-			var ui_alpha = min(1.0,gameover.modulate.a+delta)
+			var ui_alpha = min(1.0,gameover.modulate.a+delta*2)
 			gameover.modulate.a = ui_alpha
 
 func move_shield(event: InputEventMouseMotion):
@@ -190,17 +190,19 @@ func _on_Special_area_entered(area):
 
 func _on_Area2D_area_entered(area):
 	print("Nice block")
-	$PlayerSprite.play("block")
-	$Shield/ShieldSprite.play("block")
-	$Shield/ShieldSprite.frame = 0
-	$Shield/ShieldAudio.play()
-	game.score += 1
-	area.get_parent().die()
+	if not dead:
+		$PlayerSprite.play("block")
+		$Shield/ShieldSprite.play("block")
+		$Shield/ShieldSprite.frame = 0
+		$Shield/ShieldAudio.play()
+		game.score += 1
+		area.get_parent().die()
 	
 func _on_PlayerSprite_animation_finished():
-	if $PlayerSprite.animation == "block":
-		$PlayerSprite.play("idle")
-	elif $PlayerSprite.animation == "kneel":
-		$PlayerSprite.play("exhausted")
-	elif $PlayerSprite.animation == "stand":
-		$PlayerSprite.play("idle")
+	if not dead:
+		if $PlayerSprite.animation == "block":
+			$PlayerSprite.play("idle")
+		elif $PlayerSprite.animation == "kneel":
+			$PlayerSprite.play("exhausted")
+		elif $PlayerSprite.animation == "stand":
+			$PlayerSprite.play("idle")
